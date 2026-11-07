@@ -41,7 +41,7 @@ window.PORTFOLIO = {
         { title: "HOLYDRIP", description: "Fashion Reel", meta: "YouTube Shorts · 9:16", video: "https://youtube.com/shorts/XHKGWPj9jxc", thumb: "assets/img/thumb-holydrip.jpg" },
         { title: "PODCAST SHORT", description: "Podcast Clip", meta: "YouTube Shorts · 9:16", video: "https://youtube.com/shorts/lg3QxQwkwJo", thumb: "assets/img/thumb-podcast-short.webp" },
         { title: "NIKE SHORT", description: "Talking head", meta: "YouTube Shorts · 9:16", video: "https://youtube.com/shorts/SJOG3hKpzSg", thumb: "assets/img/thumb-nike-short.webp" },
-        { title: "Reel 04", description: "Short description.", meta: "Reel · 9:16", video: "", thumb: "" }
+        { title: "DOMINOS", description: "Motion Explainer", meta: "YouTube Shorts · 9:16", video: "https://youtube.com/shorts/r16HGFj7Qac", thumb: "assets/img/thumb-dominos.webp" }
       ]
     },
     {
