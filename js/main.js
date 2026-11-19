@@ -86,77 +86,49 @@
 
   const tabsEl = $("#tabs");
   const panelsEl = $("#panels");
-  let current = 0;
-  let switching = false;
-
+  // All categories are shown stacked on one page; the tabs are jump links to each one.
   function renderWork() {
     if (!tabsEl || !panelsEl) return;
     tabsEl.innerHTML = data.categories.map((c, i) => `
-      <button class="tab" role="tab" id="tab-${esc(c.id)}" aria-controls="panel-${esc(c.id)}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-i="${i}">
+      <a class="tab" href="#${esc(c.id)}" data-i="${i}"${i === 0 ? ' aria-current="true"' : ""}>
         ${folderSvg}
         <span class="tab-code">${esc(c.code)}</span>
         <span>${esc(c.label)}</span>
         <span class="tab-n">${pad(c.items.length)}</span>
-      </button>`).join("");
-    panelsEl.innerHTML = data.categories.map((c, i) => `
-      <div class="panel grid-${esc(c.layout)}" role="tabpanel" id="panel-${esc(c.id)}" aria-labelledby="tab-${esc(c.id)}" ${i === 0 ? "" : "hidden"}>
-        ${c.items.map((it, k) => cardHTML(c, it, k)).join("")}
-      </div>`).join("");
-    $("#count-all").textContent = pad(data.categories.length);
-    updateFoot();
+      </a>`).join("");
+    panelsEl.innerHTML = data.categories.map(c => `
+      <section class="cat" id="${esc(c.id)}" aria-labelledby="cat-${esc(c.id)}">
+        <h3 class="cat-head mono reveal" id="cat-${esc(c.id)}">
+          <span class="cat-code">${esc(c.code)}</span>
+          <span class="cat-label">${esc(c.label)}</span>
+          <span class="rule" aria-hidden="true"></span>
+          <span class="cat-meta">${esc(c.ratio)} · ${pad(c.items.length)} files</span>
+        </h3>
+        <div class="panel grid-${esc(c.layout)} reveal">
+          ${c.items.map((it, k) => cardHTML(c, it, k)).join("")}
+        </div>
+      </section>`).join("");
   }
 
-  function updateFoot() {
-    const c = data.categories[current];
-    $("#count-now").textContent = pad(current + 1);
-    $("#progress").style.setProperty("--p", (current + 1) / data.categories.length);
-    $("#cat-now").textContent = `${c.code} — ${c.label} · ${c.ratio} · ${pad(c.items.length)} files`;
-  }
-
-  function selectTab(i, focus) {
-    const n = data.categories.length;
-    i = (i + n) % n;
-    if (i === current || switching) return;
+  // Highlight the label of the category currently in view.
+  function spyCats() {
+    const cats = $$(".cat", panelsEl);
     const tabs = $$(".tab", tabsEl);
-    const panels = $$(".panel", panelsEl);
-    tabs.forEach((t, k) => {
-      t.setAttribute("aria-selected", k === i);
-      t.tabIndex = k === i ? 0 : -1;
-    });
-    if (focus) tabs[i].focus();
-    tabs[i].scrollIntoView({ block: "nearest", inline: "nearest", behavior: reduced ? "auto" : "smooth" });
-    const out = panels[current];
-    const inn = panels[i];
-    current = i;
-    updateFoot();
-    const swap = () => {
-      out.hidden = true;
-      out.classList.remove("is-leaving");
-      inn.hidden = false;
-      $$(".card", inn).forEach(c => { c.style.animation = "none"; c.offsetHeight; c.style.animation = ""; });
-      switching = false;
+    let ticking = false;
+    const run = () => {
+      ticking = false;
+      const mid = window.innerHeight * 0.45;
+      let i = 0;
+      cats.forEach((c, k) => { if (c.getBoundingClientRect().top <= mid) i = k; });
+      tabs.forEach((t, k) => k === i ? t.setAttribute("aria-current", "true") : t.removeAttribute("aria-current"));
     };
-    if (reduced) return swap();
-    switching = true;
-    panelsEl.style.minHeight = out.offsetHeight + "px";
-    out.classList.add("is-leaving");
-    setTimeout(() => { swap(); panelsEl.style.minHeight = ""; }, 280);
+    window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(run); } }, { passive: true });
+    run();
   }
 
   function bindWork() {
     if (!tabsEl) return;
-    tabsEl.addEventListener("click", e => {
-      const t = e.target.closest(".tab");
-      if (t) selectTab(+t.dataset.i);
-    });
-    tabsEl.addEventListener("keydown", e => {
-      const keys = { ArrowRight: 1, ArrowLeft: -1 };
-      if (keys[e.key]) { e.preventDefault(); selectTab(current + keys[e.key], true); }
-      if (e.key === "Home") { e.preventDefault(); selectTab(0, true); }
-      if (e.key === "End") { e.preventDefault(); selectTab(data.categories.length - 1, true); }
-    });
-    $("#prev").addEventListener("click", () => selectTab(current - 1));
-    $("#next").addEventListener("click", () => selectTab(current + 1));
+    spyCats();
     panelsEl.addEventListener("click", e => {
       const card = e.target.closest(".card-play") && e.target.closest(".card");
       if (!card) return;
@@ -263,7 +235,7 @@
       if (!target) return;
       e.preventDefault();
       setMenu(false);
-      const top = id === "home" ? 0 : target.getBoundingClientRect().top + window.scrollY;
+      const top = id === "home" ? 0 : target.getBoundingClientRect().top + window.scrollY - (parseFloat(getComputedStyle(target).scrollMarginTop) || 0);
       window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
       if (a.dataset.nav) setActive(a.dataset.nav);
     }));

@@ -38,6 +38,7 @@ window.PORTFOLIO = {
       ratio: "9:16",
       layout: "short",
       items: [
+        { title: "VICTOR LUSTIG", description: "Documentary Style", meta: "YouTube Shorts · 9:16", video: "https://youtube.com/shorts/QrtKnnnzerg", thumb: "assets/img/thumb-victor-lustig.webp" },
         { title: "HOLYDRIP", description: "Fashion Reel", meta: "YouTube Shorts · 9:16", video: "https://youtube.com/shorts/XHKGWPj9jxc", thumb: "assets/img/thumb-holydrip.jpg" },
         { title: "PODCAST SHORT", description: "Podcast Clip", meta: "YouTube Shorts · 9:16", video: "https://youtube.com/shorts/lg3QxQwkwJo", thumb: "assets/img/thumb-podcast-short.webp" },
         { title: "NIKE SHORT", description: "Talking head", meta: "YouTube Shorts · 9:16", video: "https://youtube.com/shorts/SJOG3hKpzSg", thumb: "assets/img/thumb-nike-short.webp" },
