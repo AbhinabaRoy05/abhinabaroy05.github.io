@@ -160,6 +160,11 @@
     $("#pl-desc").textContent = item.description || "";
     const yt = ytId(item.video);
     const vm = vimeoId(item.video);
+    // YouTube picks embed quality from the player's size and the viewer's connection; sites can't force it.
+    // So the player is sized large, and this link opens the full YouTube page where the quality menu is.
+    const ext = $("#pl-ext");
+    ext.hidden = !yt;
+    if (yt) ext.href = `https://www.youtube.com/watch?v=${yt}`;
     let html;
     if (yt) {
       html = `<iframe src="https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="${esc(item.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;

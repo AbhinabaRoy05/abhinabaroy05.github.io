@@ -879,7 +879,8 @@ main > section { z-index: 1; }
 .player-back { position: absolute; inset: 0; background: rgba(6, 6, 6, 0.92); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); animation: fade 0.4s var(--ease) both; }
 .player-box {
   position: relative;
-  width: min(1100px, 100%);
+  /* As large as the screen allows: YouTube streams higher quality into bigger players. */
+  width: min(1600px, 100%, calc((100svh - 140px) * 16 / 9));
   display: grid;
   gap: 14px;
   animation: playerIn 0.55s var(--ease) both;
@@ -890,6 +891,9 @@ main > section { z-index: 1; }
 .player-bar #pl-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .player-close { font-size: 10px; letter-spacing: 0.22em; border: 1px solid var(--line-2); padding: 7px 12px; transition: background-color 0.3s, color 0.3s; }
 .player-close:hover { background: var(--paper); color: var(--ink); }
+.player-ext { font-size: 10px; letter-spacing: 0.16em; color: var(--mute); white-space: nowrap; transition: color 0.3s; }
+.player-ext:hover, .player-ext:focus-visible { color: var(--paper); }
+.player-ext[hidden] { display: none; }
 .player-frame {
   position: relative;
   aspect-ratio: 16 / 9;
@@ -1026,6 +1030,8 @@ main > section { z-index: 1; }
   .grid-long, .grid-motion { grid-template-columns: 1fr; gap: 36px; }
   .cat-head { grid-template-columns: auto auto minmax(16px, 1fr); gap: 12px; letter-spacing: 0.16em; }
   .cat-meta { display: none; }
+  .ext-long { display: none; }
+  .player-bar { gap: 12px; }
   .about { padding-top: 100px; }
   .about-grid { padding-bottom: 90px; }
   .specs > div { grid-template-columns: 1fr; gap: 6px; }
