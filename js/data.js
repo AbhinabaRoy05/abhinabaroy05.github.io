@@ -52,11 +52,11 @@ window.PORTFOLIO = {
       ratio: "16:9",
       layout: "motion",
       items: [
-        { title: "Motion 01", description: "Kinetic Typography", meta: "Motion · 16:9", video: "", thumb: "" },
+        { title: "Motion 01", description: "", meta: "Motion · 16:9", video: "assets/video/motion-01.mp4", preview: "assets/video/motion-01.mp4", thumb: "" },
         { title: "Motion 02", description: "Explainer Animation", meta: "Motion · 16:9", video: "", thumb: "" },
-        { title: "Motion 03", description: "Logo Reveal", meta: "Motion · 16:9", video: "", thumb: "" },
-        { title: "Motion 04", description: "Product Launch", meta: "Motion · 16:9", video: "", thumb: "" },
-        { title: "Motion 05", description: "Title Sequence", meta: "Motion · 16:9", video: "", thumb: "" },
+        { title: "Motion 03", description: "", meta: "Motion · 16:9", video: "assets/video/motion-03.mp4", preview: "assets/video/motion-03.mp4", thumb: "" },
+        { title: "Motion 04", description: "", meta: "Motion · 16:9", video: "assets/video/motion-04.mp4", preview: "assets/video/motion-04.mp4", thumb: "" },
+        { title: "Motion 05", description: "", meta: "Motion · 16:9", video: "assets/video/motion-05.mp4", preview: "assets/video/motion-05.mp4", thumb: "" },
         { title: "Motion 06", description: "Social Ad", meta: "Motion · 16:9", video: "", thumb: "" }
       ]
     }

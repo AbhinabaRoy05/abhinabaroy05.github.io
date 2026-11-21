@@ -59,7 +59,7 @@
       ? `<img src="${esc(thumb)}" alt="" loading="lazy" decoding="async">`
       : (item.preview && isFile(item.preview) ? `<video src="${esc(item.preview)}" muted loop playsinline preload="none" data-preview></video>` : "");
     const code = `${cat.code}-${pad(i + 1)}`;
-    const tail = item.video
+    const tail = item.video && !isFile(item.video)
       ? `<a class="card-arrow" href="${esc(item.video)}" target="_blank" rel="noopener" aria-label="Watch ${esc(item.title)} on YouTube">${arrowSvg}</a>`
       : cat.layout === "motion"
         ? `<span class="card-arrow" aria-hidden="true">${arrowSvg}</span>`
@@ -135,16 +135,28 @@
       const cat = data.categories.find(c => c.id === card.dataset.cat);
       openPlayer(cat, cat.items[+card.dataset.index], +card.dataset.index, card);
     });
-    panelsEl.addEventListener("pointerover", e => {
-      const v = e.target.closest(".card") && e.target.closest(".card").querySelector("video[data-preview]");
-      if (v) v.play().catch(() => {});
-    });
-    panelsEl.addEventListener("pointerout", e => {
-      const card = e.target.closest(".card");
-      if (!card || card.contains(e.relatedTarget)) return;
-      const v = card.querySelector("video[data-preview]");
-      if (v) v.pause();
-    });
+    bindLoops();
+  }
+
+  // Card loop clips: load only when near the screen, play only while visible, pause otherwise.
+  // With reduced motion the clip still loads (showing its first frame) but never plays.
+  const visibleLoops = new Set();
+  const playLoop = v => { if (!reduced && player.hidden) v.play().catch(() => {}); };
+  function bindLoops() {
+    const clips = $$("video[data-preview]", panelsEl);
+    if (!clips.length) return;
+    if (!("IntersectionObserver" in window)) { clips.forEach(v => { v.preload = "auto"; playLoop(v); }); return; }
+    // Start loading a little before a clip scrolls in, so it's ready when it appears...
+    const near = new IntersectionObserver(entries => entries.forEach(en => {
+      if (en.isIntersecting) { en.target.preload = "auto"; near.unobserve(en.target); }
+    }), { rootMargin: "300px 0px" });
+    // ...but only play it while it's actually on screen.
+    const onScreen = new IntersectionObserver(entries => entries.forEach(en => {
+      const v = en.target;
+      if (en.isIntersecting) { visibleLoops.add(v); playLoop(v); }
+      else { visibleLoops.delete(v); v.pause(); }
+    }), { threshold: 0 });
+    clips.forEach(v => { near.observe(v); onScreen.observe(v); });
   }
 
   const player = $("#player");
@@ -156,7 +168,8 @@
     const vertical = cat.ratio === "9:16";
     player.classList.toggle("is-vertical", vertical);
     $("#pl-code").textContent = `${cat.code}-${pad(i + 1)} / ${cat.label}`;
-    $("#pl-title").textContent = item.title;
+    $("#pl-title").textContent = cat.layout === "motion" ? "" : item.title; // Motion Graphics shows clips without titles
+    player.setAttribute("aria-label", item.title); // screen readers still get a name when the visible title is blank
     $("#pl-desc").textContent = item.description || "";
     const yt = ytId(item.video);
     const vm = vimeoId(item.video);
@@ -171,13 +184,14 @@
     } else if (vm) {
       html = `<iframe src="https://player.vimeo.com/video/${vm}?autoplay=1" title="${esc(item.title)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
     } else if (isFile(item.video)) {
-      html = `<video src="${esc(item.video)}" controls autoplay playsinline></video>`;
+      html = `<video src="${esc(item.video)}" controls autoplay loop playsinline></video>`;
     } else if (item.video) {
       html = `<div class="player-empty"><b>${esc(item.title)}</b><a class="btn" href="${esc(item.video)}" target="_blank" rel="noopener" style="margin:12px auto 0">Watch ${arrowSvg}</a></div>`;
     } else {
       html = `<div class="player-empty"><b>Coming soon</b><span class="mono">Video link not added yet</span></div>`;
     }
     plFrame.innerHTML = html;
+    visibleLoops.forEach(v => v.pause());
     player.hidden = false;
     body.style.overflow = "hidden";
     $(".player-close", player).focus();
@@ -189,6 +203,7 @@
     plFrame.innerHTML = "";
     body.style.overflow = "";
     if (lastFocus) lastFocus.focus({ preventScroll: true });
+    visibleLoops.forEach(playLoop);
   }
 
   function bindPlayer() {

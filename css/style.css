@@ -554,11 +554,12 @@ main > section { z-index: 1; }
 .dots-w { left: 6.4%; }
 .dots-wr { right: 6.4%; }
 
+/* Tabs sit beside the title when they fit, and wrap below it when they don't (never overflow their box). */
 .work-head {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: end;
-  gap: 56px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 36px 44px;
   margin-bottom: 64px;
 }
 
@@ -603,7 +604,7 @@ main > section { z-index: 1; }
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 18px 30px 18px 26px;
+  padding: 18px 24px 18px 22px;
   font-family: var(--mono);
   font-size: 13px;
   letter-spacing: 0.04em;
@@ -767,6 +768,8 @@ main > section { z-index: 1; }
   100% { transform: none; }
 }
 .grid-motion .card-meta { display: none; }
+/* Motion Graphics cards are clean looping clips: no title, corner brackets, play button or labels. */
+.grid-motion .card-info, .grid-motion .brk, .grid-motion .play, .grid-motion .chip { display: none; }
 .grid-short .card-meta { display: none; }
 .grid-short .card-info { grid-template-columns: 1fr auto; }
 .grid-short .card-title { font-size: 15px; }
@@ -886,6 +889,15 @@ main > section { z-index: 1; }
   animation: playerIn 0.55s var(--ease) both;
 }
 .player.is-vertical .player-box { width: min(640px, 100%, calc((100svh - 140px) * 9 / 16)); }
+/* Keep the bar from stretching the player wider (and taller) than the screen allows. */
+.player-box { grid-template-columns: minmax(0, 1fr); }
+.player-bar #pl-code { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.player.is-vertical .ext-long { display: none; }
+/* Phones held sideways: the vertical player is very narrow, so its bar keeps only Close. */
+@media (max-height: 500px) {
+  .player.is-vertical .player-bar { justify-content: flex-end; }
+  .player.is-vertical #pl-code, .player.is-vertical #pl-title, .player.is-vertical .player-ext { display: none; }
+}
 .player-bar { display: flex; align-items: center; gap: 18px; font-size: 10px; }
 .player-bar #pl-code { color: var(--mute); }
 .player-bar #pl-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -959,7 +971,7 @@ main > section { z-index: 1; }
   .tools { gap: 16px 10px; }
   .tool { min-width: 0; }
   .tool-name { font-size: 11.5px; }
-  .work-head { grid-template-columns: 1fr; gap: 36px; }
+  .work-head { flex-direction: column; align-items: flex-start; gap: 36px; }
   .tabs { margin-bottom: 0; }
   .grid-motion { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .grid-short { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -969,6 +981,9 @@ main > section { z-index: 1; }
 
 @media (max-width: 900px) {
   .clock, .swatch, .reticle { display: none; }
+  /* Compact tabs so all three fit inside their box on tablets too. */
+  .tab { padding: 16px 20px 16px 16px; gap: 10px; font-size: 12px; }
+  .tab-n { display: none; }
   .dots-w { display: none; }
   :root { --hdr-h: 72px; }
   .nav, .disciplines { display: none; }
