@@ -52,12 +52,12 @@ window.PORTFOLIO = {
       ratio: "16:9",
       layout: "motion",
       items: [
-        { title: "Motion 01", description: "", meta: "Motion · 16:9", video: "assets/video/motion-01.mp4", preview: "assets/video/motion-01.mp4", thumb: "" },
+        { title: "Motion 01", description: "", meta: "Motion · 16:9", video: "assets/video/motion-c1-e370e0.mp4", preview: "assets/video/motion-c1-e370e0.mp4", thumb: "" },
         { title: "Motion 02", description: "Explainer Animation", meta: "Motion · 16:9", video: "", thumb: "" },
-        { title: "Motion 03", description: "", meta: "Motion · 16:9", video: "assets/video/motion-03.mp4", preview: "assets/video/motion-03.mp4", thumb: "" },
-        { title: "Motion 04", description: "", meta: "Motion · 16:9", video: "assets/video/motion-04.mp4", preview: "assets/video/motion-04.mp4", thumb: "" },
-        { title: "Motion 05", description: "", meta: "Motion · 16:9", video: "assets/video/motion-05.mp4", preview: "assets/video/motion-05.mp4", thumb: "" },
-        { title: "Motion 06", description: "Social Ad", meta: "Motion · 16:9", video: "", thumb: "" }
+        { title: "Motion 03", description: "", meta: "Motion · 16:9", video: "assets/video/motion-c3-9e596f.mp4", preview: "assets/video/motion-c3-9e596f.mp4", thumb: "" },
+        { title: "Motion 04", description: "", meta: "Motion · 16:9", video: "assets/video/motion-c4-b97f7d.mp4", preview: "assets/video/motion-c4-b97f7d.mp4", thumb: "" },
+        { title: "Motion 05", description: "", meta: "Motion · 16:9", video: "assets/video/motion-c5-965ea9.mp4", preview: "assets/video/motion-c5-965ea9.mp4", thumb: "" },
+        { title: "Motion 06", description: "", meta: "Motion · 16:9", video: "assets/video/motion-c6-b57bd5.mp4", preview: "assets/video/motion-c6-b57bd5.mp4", thumb: "" }
       ]
     }
   ]
