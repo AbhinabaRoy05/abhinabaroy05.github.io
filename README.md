@@ -9,8 +9,8 @@ GitHub Pages rebuilds automatically; the live link updates in about a minute.
 
 ## Two versions
 
-- `index.html` is the full portfolio, with contact details: `https://abhinabaroy05.github.io/portfolio/`
-- `showcase.html` is the same site **without** contact details: `https://abhinabaroy05.github.io/portfolio/showcase`
+- `index.html` is the full portfolio, with contact details: `https://abhinabaroy05.github.io/`
+- `showcase.html` is the same site **without** contact details: `https://abhinabaroy05.github.io/showcase`
 
 `showcase.html` is generated: `build-showcase.ps1` copies `index.html` and drops everything between
 `<!-- contact:start -->` and `<!-- contact:end -->`. `publish.bat` runs it for you, so only ever edit `index.html`.
@@ -27,3 +27,5 @@ Your email lives only inside that contact block in `index.html`.
   - `title`, `description`, `meta`.
 
 `IMAGES/` holds the original logo files the toolkit icons were made from.
+
+The old links (`.../portfolio/` and `.../portfolio/showcase`) still work: the `portfolio/` folder redirects them to the new addresses.
