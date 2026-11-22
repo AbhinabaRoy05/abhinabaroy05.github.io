@@ -363,15 +363,13 @@
     }
   }
 
+  // The email lives only in index.html's contact block, so showcase.html (no contact) never contains it.
   function bindContact() {
-    const email = data.email || "";
-    const btn = $("#connect");
     const txt = $("#email-text");
     const copy = $("#copy");
     const state = $("#copy-state");
-    if (btn && email) btn.href = "mailto:" + email;
-    if (txt) txt.textContent = email;
-    if (copy) copy.addEventListener("click", () => {
+    const email = txt ? txt.textContent.trim() : "";
+    if (copy && email) copy.addEventListener("click", () => {
       const done = ok => { state.textContent = ok ? "Copied" : "Select"; setTimeout(() => state.textContent = "Copy", 1600); };
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(email).then(() => done(true)).catch(() => { selectText(txt); done(false); });

@@ -7,9 +7,17 @@ Static site: `index.html` + `css/` + `js/`. Hosted on GitHub Pages.
 Edit files, then double-click **`publish.bat`** (or run `git add -A && git commit -m "Update" && git push`).
 GitHub Pages rebuilds automatically; the live link updates in about a minute.
 
+## Two versions
+
+- `index.html` is the full portfolio, with contact details: `https://abhinabaroy05.github.io/portfolio/`
+- `showcase.html` is the same site **without** contact details: `https://abhinabaroy05.github.io/portfolio/showcase`
+
+`showcase.html` is generated: `build-showcase.ps1` copies `index.html` and drops everything between
+`<!-- contact:start -->` and `<!-- contact:end -->`. `publish.bat` runs it for you, so only ever edit `index.html`.
+Your email lives only inside that contact block in `index.html`.
+
 ## Edit everything in `js/data.js`
 
-- `email` — address used by the LET'S CONNECT button.
 - `portrait` — e.g. `"assets/img/portrait.jpg"` (4:5 works best).
 - `tools[].icon` — optional path to an icon in `assets/icons/` (white logo on transparent, ~120×120 `.webp`); leave empty to show the letter mark.
 - `categories[].items[]`

@@ -2,7 +2,6 @@ window.PORTFOLIO = {
   name: "Abhinaba Roy",
   role: "Video Editor & Motion Designer",
   location: "Kolkata, India",
-  email: "royabhinaba22@gmail.com",
   portrait: "assets/img/portrait.webp",
 
   tools: [

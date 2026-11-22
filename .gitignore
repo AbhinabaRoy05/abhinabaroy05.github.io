@@ -2,3 +2,7 @@
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Source files (the site uses the copies in assets/)
+MOTION GRAPHICS/
+THUMBNAILS/REELS THUMBNAILS/
